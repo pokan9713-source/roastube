@@ -1,646 +1,839 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ROASTUBE 🔥</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<title>ROASTUBE — YouTube Analyzer</title>
 
-    html {
-      scroll-behavior: smooth;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(circle at 20% 10%, rgba(255, 0, 70, .16), transparent 30%),
-        radial-gradient(circle at 80% 30%, rgba(255, 70, 0, .12), transparent 25%),
-        #070707;
-      color: #fff;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+html{
+  scroll-behavior:smooth;
+}
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: .04;
-      background-image:
-        linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px);
-      background-size: 40px 40px;
-    }
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#060606;
+  color:#fff;
+  min-height:100vh;
+}
 
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      padding: 18px 6%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(7,7,7,.82);
-      backdrop-filter: blur(15px);
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.035;
+  background-image:
+    linear-gradient(#fff 1px,transparent 1px),
+    linear-gradient(90deg,#fff 1px,transparent 1px);
+  background-size:40px 40px;
+}
 
-    .logo {
-      font-size: 26px;
-      font-weight: 1000;
-      letter-spacing: -1px;
-    }
+nav{
+  position:sticky;
+  top:0;
+  z-index:100;
+  height:70px;
+  padding:0 6%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:rgba(6,6,6,.88);
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid #222;
+}
 
-    .logo span {
-      color: #ff1744;
-    }
+.logo{
+  font-size:25px;
+  font-weight:1000;
+}
 
-    nav a {
-      color: #aaa;
-      text-decoration: none;
-      margin-left: 25px;
-      font-weight: 700;
-      transition: .2s;
-    }
+.logo span{
+  color:#ff1744;
+}
 
-    nav a:hover {
-      color: #fff;
-    }
+nav a{
+  color:#aaa;
+  text-decoration:none;
+  margin-left:25px;
+  font-weight:bold;
+}
 
-    .hero {
-      min-height: 88vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 80px 20px;
-      position: relative;
-    }
+nav a:hover{
+  color:#fff;
+}
 
-    .hero-content {
-      max-width: 950px;
-    }
+.hero{
+  min-height:78vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:70px 20px;
+}
 
-    .badge {
-      display: inline-block;
-      padding: 8px 15px;
-      border: 1px solid rgba(255,23,68,.5);
-      border-radius: 999px;
-      color: #ff5273;
-      background: rgba(255,23,68,.08);
-      font-weight: 800;
-      font-size: 13px;
-      margin-bottom: 25px;
-      animation: pulse 2s infinite;
-    }
+.hero-content{
+  width:100%;
+  max-width:1000px;
+}
 
-    @keyframes pulse {
-      50% {
-        box-shadow: 0 0 30px rgba(255,23,68,.18);
-      }
-    }
+.badge{
+  display:inline-block;
+  padding:9px 16px;
+  border:1px solid #ff1744;
+  color:#ff5273;
+  border-radius:100px;
+  font-weight:900;
+  font-size:13px;
+  margin-bottom:25px;
+}
 
-    h1 {
-      font-size: clamp(55px, 10vw, 125px);
-      line-height: .85;
-      letter-spacing: -7px;
-      font-weight: 1000;
-    }
+h1{
+  font-size:clamp(50px,9vw,110px);
+  line-height:.86;
+  letter-spacing:-6px;
+  font-weight:1000;
+}
 
-    h1 span {
-      color: #ff1744;
-      text-shadow: 0 0 40px rgba(255,23,68,.35);
-    }
+h1 span{
+  color:#ff1744;
+  text-shadow:0 0 35px rgba(255,23,68,.4);
+}
 
-    .subtitle {
-      color: #999;
-      font-size: clamp(17px, 2vw, 23px);
-      max-width: 650px;
-      margin: 30px auto;
-      line-height: 1.6;
-    }
+.hero p{
+  max-width:700px;
+  margin:30px auto;
+  color:#999;
+  font-size:19px;
+  line-height:1.6;
+}
 
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
+.search-box{
+  max-width:800px;
+  margin:35px auto 0;
+  padding:10px;
+  display:flex;
+  gap:10px;
+  background:#111;
+  border:1px solid #292929;
+  border-radius:16px;
+}
 
-    button,
-    .button {
-      border: 0;
-      cursor: pointer;
-      padding: 16px 25px;
-      border-radius: 12px;
-      font-weight: 900;
-      font-size: 15px;
-      text-decoration: none;
-      transition: .2s;
-    }
+.search-box input{
+  flex:1;
+  min-width:0;
+  background:transparent;
+  border:0;
+  outline:0;
+  color:#fff;
+  font-size:16px;
+  padding:15px;
+}
 
-    .primary {
-      background: #ff1744;
-      color: #fff;
-      box-shadow: 0 10px 40px rgba(255,23,68,.25);
-    }
+.search-box button{
+  border:0;
+  border-radius:11px;
+  background:#ff1744;
+  color:white;
+  font-weight:1000;
+  padding:0 25px;
+  cursor:pointer;
+}
 
-    .primary:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 15px 50px rgba(255,23,68,.4);
-    }
+.search-box button:hover{
+  transform:scale(1.03);
+}
 
-    .secondary {
-      background: #161616;
-      color: #fff;
-      border: 1px solid #333;
-    }
+.examples{
+  margin-top:15px;
+  color:#666;
+  font-size:13px;
+}
 
-    .secondary:hover {
-      background: #222;
-      transform: translateY(-3px);
-    }
+section{
+  max-width:1200px;
+  margin:auto;
+  padding:80px 6%;
+}
 
-    section {
-      padding: 100px 6%;
-      max-width: 1200px;
-      margin: auto;
-    }
+.title{
+  font-size:clamp(35px,5vw,60px);
+  font-weight:1000;
+  letter-spacing:-3px;
+  margin-bottom:12px;
+}
 
-    .section-title {
-      font-size: clamp(35px, 5vw, 60px);
-      font-weight: 1000;
-      letter-spacing: -3px;
-      margin-bottom: 15px;
-    }
+.title span{
+  color:#ff1744;
+}
 
-    .section-title span {
-      color: #ff1744;
-    }
+.description{
+  color:#888;
+  line-height:1.6;
+  margin-bottom:35px;
+}
 
-    .section-text {
-      color: #888;
-      margin-bottom: 35px;
-      line-height: 1.7;
-    }
+#result{
+  display:none;
+}
 
-    .roast-box {
-      background: linear-gradient(145deg, #151515, #0c0c0c);
-      border: 1px solid #292929;
-      border-radius: 25px;
-      padding: 35px;
-      box-shadow: 0 30px 80px rgba(0,0,0,.35);
-    }
+.video-container{
+  background:#0e0e0e;
+  border:1px solid #292929;
+  border-radius:24px;
+  padding:15px;
+  box-shadow:0 25px 70px rgba(0,0,0,.4);
+}
 
-    .roast-result {
-      min-height: 130px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 25px;
-      margin-bottom: 25px;
-      border-radius: 18px;
-      background: #090909;
-      border: 1px solid #252525;
-      color: #ddd;
-      font-size: clamp(20px, 3vw, 30px);
-      font-weight: 900;
-      line-height: 1.35;
-    }
+.video-frame{
+  width:100%;
+  aspect-ratio:16/9;
+  border:0;
+  border-radius:15px;
+  display:block;
+}
 
-    .roast-result.active {
-      animation: roastIn .35s ease;
-    }
+.video-title{
+  font-size:26px;
+  font-weight:1000;
+  margin:25px 5px 5px;
+}
 
-    @keyframes roastIn {
-      from {
-        transform: scale(.95);
-        opacity: 0;
-      }
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
+.video-id{
+  color:#666;
+  margin:0 5px 10px;
+  font-size:13px;
+}
 
-    .meter {
-      margin-top: 35px;
-    }
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-top:30px;
+}
 
-    .meter-top {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      color: #aaa;
-      font-weight: 800;
-    }
+.card{
+  background:#101010;
+  border:1px solid #252525;
+  border-radius:18px;
+  padding:25px;
+  transition:.25s;
+}
 
-    .meter-bar {
-      height: 18px;
-      border-radius: 99px;
-      background: #222;
-      overflow: hidden;
-    }
+.card:hover{
+  transform:translateY(-5px);
+  border-color:#ff1744;
+}
 
-    .meter-fill {
-      width: 87%;
-      height: 100%;
-      background: linear-gradient(90deg, #ff1744, #ff6d00);
-      border-radius: inherit;
-      animation: load 1.3s ease;
-    }
+.card-icon{
+  font-size:32px;
+  margin-bottom:15px;
+}
 
-    @keyframes load {
-      from { width: 0; }
-      to { width: 87%; }
-    }
+.card-label{
+  color:#777;
+  font-size:12px;
+  font-weight:900;
+  text-transform:uppercase;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      margin-top: 40px;
-    }
+.card-value{
+  margin-top:8px;
+  font-size:27px;
+  font-weight:1000;
+}
 
-    .card {
-      padding: 28px;
-      border-radius: 20px;
-      background: #111;
-      border: 1px solid #242424;
-      transition: .25s;
-    }
+.topics{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:20px;
+}
 
-    .card:hover {
-      transform: translateY(-7px);
-      border-color: #ff1744;
-      box-shadow: 0 20px 50px rgba(255,23,68,.12);
-    }
+.topic{
+  padding:10px 15px;
+  border-radius:100px;
+  background:#191919;
+  border:1px solid #303030;
+  color:#ddd;
+  font-weight:bold;
+}
 
-    .emoji {
-      font-size: 42px;
-      margin-bottom: 18px;
-    }
+.roast-panel{
+  margin-top:30px;
+  padding:30px;
+  border-radius:22px;
+  background:linear-gradient(145deg,#151515,#090909);
+  border:1px solid #292929;
+}
 
-    .card h3 {
-      font-size: 22px;
-      margin-bottom: 10px;
-    }
+.roast-score{
+  display:flex;
+  align-items:center;
+  gap:25px;
+  margin-bottom:25px;
+}
 
-    .card p {
-      color: #888;
-      line-height: 1.6;
-    }
+.score-circle{
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  border:8px solid #ff1744;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:27px;
+  font-weight:1000;
+  flex-shrink:0;
+}
 
-    .counter {
-      text-align: center;
-      margin-top: 60px;
-      padding: 45px;
-      border-radius: 25px;
-      background: #0d0d0d;
-      border: 1px solid #242424;
-    }
+.roast-text{
+  color:#aaa;
+  line-height:1.6;
+}
 
-    .counter-number {
-      font-size: clamp(55px, 10vw, 100px);
-      font-weight: 1000;
-      color: #ff1744;
-    }
+.bar{
+  height:17px;
+  background:#222;
+  border-radius:99px;
+  overflow:hidden;
+  margin-top:12px;
+}
 
-    .counter p {
-      color: #888;
-    }
+.fill{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#ff1744,#ff6d00);
+  border-radius:99px;
+  transition:1s;
+}
 
-    footer {
-      text-align: center;
-      padding: 60px 20px;
-      border-top: 1px solid #1d1d1d;
-      color: #666;
-    }
+.notice{
+  display:none;
+  max-width:800px;
+  margin:20px auto;
+  padding:15px;
+  border-radius:12px;
+  background:#16080b;
+  border:1px solid #54202b;
+  color:#ff8096;
+  text-align:left;
+}
 
-    footer strong {
-      color: #ff1744;
-    }
+footer{
+  padding:60px 20px;
+  text-align:center;
+  color:#666;
+  border-top:1px solid #1d1d1d;
+}
 
-    .popup {
-      position: fixed;
-      left: 50%;
-      bottom: 30px;
-      transform: translate(-50%, 150px);
-      background: #ff1744;
-      color: #fff;
-      padding: 16px 25px;
-      border-radius: 14px;
-      font-weight: 1000;
-      z-index: 999;
-      opacity: 0;
-      transition: .35s;
-      box-shadow: 0 15px 50px rgba(255,23,68,.35);
-    }
+footer strong{
+  color:#ff1744;
+}
 
-    .popup.show {
-      transform: translate(-50%, 0);
-      opacity: 1;
-    }
+@media(max-width:850px){
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
 
-    @media (max-width: 800px) {
-      nav {
-        padding: 15px 20px;
-      }
+@media(max-width:600px){
+  nav div:last-child{
+    display:none;
+  }
 
-      nav div:last-child {
-        display: none;
-      }
+  h1{
+    letter-spacing:-4px;
+  }
 
-      h1 {
-        letter-spacing: -4px;
-      }
+  .search-box{
+    flex-direction:column;
+  }
 
-      section {
-        padding: 70px 20px;
-      }
+  .search-box button{
+    padding:15px;
+  }
 
-      .grid {
-        grid-template-columns: 1fr;
-      }
+  .grid{
+    grid-template-columns:1fr;
+  }
 
-      .roast-box {
-        padding: 20px;
-      }
-    }
-  </style>
+  section{
+    padding:60px 20px;
+  }
+
+  .roast-score{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <nav>
-    <div class="logo">ROAST<span>UBE</span> 🔥</div>
+<nav>
+  <div class="logo">ROAST<span>UBE</span> 🔥</div>
 
-    <div>
-      <a href="#roast">ROAST</a>
-      <a href="#meter">MÉRŐ</a>
-      <a href="#klisek">KLISÉK</a>
-    </div>
-  </nav>
+  <div>
+    <a href="#kereso">KERESÉS</a>
+    <a href="#eredmeny">ELEMZÉS</a>
+    <a href="#roast">ROAST</a>
+  </div>
+</nav>
 
-  <header class="hero">
-    <div class="hero-content">
 
-      <div class="badge">🔥 INTERNETES CLICKBAIT-ELLENŐRZŐ 3000</div>
+<header class="hero" id="kereso">
 
-      <h1>
-        KEVESEBB<br>
-        <span>CLICKBAIT.</span><br>
-        TÖBB ROAST.
-      </h1>
+  <div class="hero-content">
 
-      <p class="subtitle">
-        A hely, ahol a „EZT NEM HISZED EL!” címek végre megkapják azt,
-        amit megérdemelnek. 😈
-      </p>
-
-      <div class="buttons">
-        <a class="button primary" href="#roast">ROAST INDÍTÁSA 🔥</a>
-        <a class="button secondary" href="#meter">MENNYIRE CLICKBAIT?</a>
-      </div>
-
-    </div>
-  </header>
-
-  <section id="roast">
-
-    <div class="section-title">
-      RANDOM <span>ROAST</span> GENERÁTOR
+    <div class="badge">
+      🔥 YOUTUBE VIDEO ANALYZER
     </div>
 
-    <p class="section-text">
-      Nyomd meg a gombot, és a rendszer kiválaszt egy teljesen fiktív,
-      általános YouTube-roastot.
+    <h1>
+      DOBD BE A<br>
+      <span>VIDEÓT.</span><br>
+      MI ELEMEZZÜK.
+    </h1>
+
+    <p>
+      Illessz be egy YouTube-linket, vagy írj be egy keresőkifejezést.
+      Az oldal elkészíti a videó nézetét, témáit és egy szórakoztató
+      clickbait/roast elemzést.
     </p>
 
-    <div class="roast-box">
+    <div class="search-box">
 
-      <div class="roast-result" id="roastResult">
-        Nyomd meg a gombot. Tudod, hogy akarod. 👀
+      <input
+        id="input"
+        type="text"
+        placeholder="YouTube link vagy keresőkifejezés..."
+        onkeydown="if(event.key==='Enter') analyze()"
+      >
+
+      <button onclick="analyze()">
+        🔎 ELEMZÉS
+      </button>
+
+    </div>
+
+    <div class="examples">
+      Példa: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+    </div>
+
+    <div class="notice" id="notice"></div>
+
+  </div>
+
+</header>
+
+
+<section id="eredmeny">
+
+  <div class="title">
+    VIDEO <span>ELEMZÉS</span>
+  </div>
+
+  <p class="description">
+    Az eredmény itt jelenik meg.
+  </p>
+
+  <div id="result">
+
+    <div class="video-container">
+
+      <iframe
+        id="video"
+        class="video-frame"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+      </iframe>
+
+      <div class="video-title" id="videoTitle">
+        YouTube videó
       </div>
 
-      <div class="buttons">
-        <button class="primary" onclick="newRoast()">
-          🔥 ROASTOLJ!
-        </button>
-
-        <button class="secondary" onclick="copyRoast()">
-          📋 MÁSOLÁS
-        </button>
-      </div>
+      <div class="video-id" id="videoId"></div>
 
     </div>
 
-  </section>
 
-  <section id="meter">
-
-    <div class="section-title">
-      CLICKBAIT <span>MÉRŐ</span>
+    <div class="title" style="margin-top:70px">
+      <span>STATISZTIKA</span>
     </div>
-
-    <p class="section-text">
-      A tudományosan teljesen komolytalan, de annál szórakoztatóbb
-      clickbait-mérőnk.
-    </p>
-
-    <div class="roast-box">
-
-      <h2>„EZT A VIDEÓT NEM AKARTAM FELTÖLTENI...”</h2>
-
-      <div class="meter">
-        <div class="meter-top">
-          <span>CLICKBAIT SZINT</span>
-          <span>87%</span>
-        </div>
-
-        <div class="meter-bar">
-          <div class="meter-fill"></div>
-        </div>
-      </div>
-
-      <br>
-
-      <p class="section-text">
-        Várható összetevők: piros nyíl, meglepett arc,
-        túl sok felkiáltójel és legalább egy „DÖBBENETES!”.
-      </p>
-
-    </div>
-
-  </section>
-
-  <section id="klisek">
-
-    <div class="section-title">
-      A NAGY <span>KLISÉK</span>
-    </div>
-
-    <p class="section-text">
-      Ismerős? Akkor valószínűleg túl sokáig voltál YouTube-on.
-    </p>
 
     <div class="grid">
 
       <div class="card">
-        <div class="emoji">😱</div>
-        <h3>A MEGLEPETT ARC</h3>
-        <p>
-          Száj nyitva. Szemek tágra nyitva. Hüvelykujj a háttérben.
-          A videó tartalma természetesen teljesen másodlagos.
-        </p>
+        <div class="card-icon">👀</div>
+        <div class="card-label">Videó azonosító</div>
+        <div class="card-value" id="statId">—</div>
       </div>
 
       <div class="card">
-        <div class="emoji">🔴</div>
-        <h3>A PIROS KARIKA</h3>
-        <p>
-          Ha valamit piros körrel jelölünk, az automatikusan
-          73%-kal titokzatosabbnak tűnik. Tudományosnak hangzik.
-        </p>
+        <div class="card-icon">🎬</div>
+        <div class="card-label">Platform</div>
+        <div class="card-value">YouTube</div>
       </div>
 
       <div class="card">
-        <div class="emoji">➡️</div>
-        <h3>A PIROS NYÍL</h3>
-        <p>
-          Egyetlen nyíl, ami valójában semmire sem mutat,
-          de valahogy mégis rákattintasz.
-        </p>
+        <div class="card-icon">🔥</div>
+        <div class="card-label">Roast szint</div>
+        <div class="card-value" id="statRoast">—</div>
       </div>
 
       <div class="card">
-        <div class="emoji">💀</div>
-        <h3>„NEM HISZED EL!”</h3>
-        <p>
-          Az internet egyik legrégebbi mondatkezdése.
-          És igen, még mindig működik.
-        </p>
-      </div>
-
-      <div class="card">
-        <div class="emoji">👀</div>
-        <h3>„MARADJ A VÉGÉIG”</h3>
-        <p>
-          A videó elején elmondják, hogy a végén lesz a lényeg.
-          A végén pedig jön a következő videó.
-        </p>
-      </div>
-
-      <div class="card">
-        <div class="emoji">💰</div>
-        <h3>„EZ MEGVÁLTOZTATTA AZ ÉLETEM”</h3>
-        <p>
-          Két napja még nem ismerte. Ma már az élete legfontosabb
-          dolga. Holnap pedig szponzorált lesz.
-        </p>
+        <div class="card-icon">🎯</div>
+        <div class="card-label">Clickbait</div>
+        <div class="card-value" id="statClickbait">—</div>
       </div>
 
     </div>
 
-    <div class="counter">
-      <div class="counter-number" id="counter">0</div>
-      <p>roast generálva ezen az oldalon</p>
+
+    <div class="title" style="margin-top:70px">
+      VIDEÓ <span>TÉMÁI</span>
     </div>
 
-  </section>
+    <p class="description">
+      A címben vagy a keresőkifejezésben talált kulcsszavak alapján.
+    </p>
 
-  <footer>
-    <strong>ROASTUBE 🔥</strong><br><br>
-    Szatirikus oldal a tartalomgyártói klisékről.<br>
-    Nem célunk valós személyekről ellenőrizetlen állításokat tenni.
-  </footer>
+    <div class="topics" id="topics"></div>
 
-  <div class="popup" id="popup">
-    🔥 ROAST KIMÁSOLVA!
+
+    <div id="roast" class="roast-panel">
+
+      <div class="title">
+        🔥 <span>ROAST</span> ELEMZÉS
+      </div>
+
+      <div class="roast-score">
+
+        <div class="score-circle" id="score">
+          0
+        </div>
+
+        <div class="roast-text" id="roastText">
+          Elemzés folyamatban...
+        </div>
+
+      </div>
+
+      <strong>CLICKBAIT SZINT</strong>
+
+      <div class="bar">
+        <div class="fill" id="fill"></div>
+      </div>
+
+    </div>
+
   </div>
 
-  <script>
+</section>
 
-    const roasts = [
-      "A thumbnail több energiát kapott, mint maga a videó.",
-      "Ez nem clickbait. Ez kreatív félrevezetés. 😌",
-      "A piros nyíl már többet dolgozott, mint a vágó.",
-      "A videó 10 perc. A lényeg 14 másodperc.",
-      "„A végén minden kiderül!” — 18 perc múlva: semmi.",
-      "A thumbnail szerint világtörténelmi esemény történt. Valójában csak leesett egy pohár.",
-      "A cím CAPS LOCK-ban van, tehát biztosan komoly.",
-      "A meglepett arc nagyobb, mint a videó valódi sztorija.",
-      "Ha a címben három felkiáltójel van, az internet szerint az már dokumentumfilm.",
-      "Ez a thumbnail úgy néz ki, mintha a Photoshop is felmondott volna.",
-      "A videó legfontosabb része? Az, hogy kattintottál.",
-      "A tartalom 20%, a thumbnail 80%, a valóság pedig valahol hátul ül.",
-      "„Nem akartam ezt megmutatni...” — de a kamera pont be volt kapcsolva. 😏",
-      "A YouTube algoritmus ezt látja: 👀. Te ezt látod: 💸.",
-      "Minden videó előtt kell egy drámai szünet. Kötelező."
+
+<footer>
+
+  <strong>ROASTUBE 🔥</strong>
+
+  <br><br>
+
+  YouTube videók szórakoztató elemzése és roastja.
+
+  <br><br>
+
+  A statisztikai rész ebben a változatban a megadott
+  linkből/keresőkifejezésből dolgozik; hivatalos YouTube
+  megtekintési vagy like-adatokat nem talál ki.
+
+</footer>
+
+
+<script>
+
+const keywords = {
+
+  "gaming":"🎮 Gaming",
+  "játék":"🎮 Gaming",
+  "game":"🎮 Gaming",
+  "minecraft":"⛏️ Minecraft",
+  "fortnite":"🔫 Fortnite",
+  "youtube":"▶️ YouTube",
+  "vlog":"📹 Vlog",
+  "tech":"💻 Technológia",
+  "telefon":"📱 Mobil",
+  "iphone":"📱 Apple / iPhone",
+  "android":"📱 Android",
+  "ai":"🤖 Mesterséges intelligencia",
+  "mesterséges":"🤖 Mesterséges intelligencia",
+  "autó":"🚗 Autók",
+  "auto":"🚗 Autók",
+  "sport":"⚽ Sport",
+  "foci":"⚽ Futball",
+  "film":"🎬 Film",
+  "zene":"🎵 Zene",
+  "music":"🎵 Zene",
+  "reakció":"😂 Reakció",
+  "reaction":"😂 Reakció",
+  "challenge":"🏆 Challenge",
+  "kihívás":"🏆 Kihívás",
+  "teszt":"🧪 Teszt",
+  "review":"⭐ Teszt / Review",
+  "tutorial":"📚 Tutorial",
+  "how":"📚 Tutorial",
+  "news":"📰 Hírek",
+  "hír":"📰 Hírek",
+  "shorts":"📱 Shorts"
+};
+
+
+const roastTexts = [
+  "A cím alapján itt valószínűleg több a dráma, mint maga a tartalom.",
+  "Ez a cím már önmagában próbál rád kattintani. 👀",
+  "A thumbnail nélkül is érződik a clickbait energia.",
+  "Ez a videó legalább egy nagybetűs szót biztosan megérdemel.",
+  "A cím azt ígéri, hogy megváltozik az életed. Nyugodjunk meg.",
+  "A YouTube algoritmus valószínűleg már mosolyog.",
+  "Ez az a videó, ahol a cím hosszabb, mint a lényeg.",
+  "Gyanúsan sok figyelemfelkeltő energia van ebben a címben."
+];
+
+
+function getVideoId(url){
+
+  try{
+
+    const parsed = new URL(url);
+
+    if(parsed.hostname.includes("youtu.be")){
+      return parsed.pathname.substring(1).split("/")[0];
+    }
+
+    if(parsed.hostname.includes("youtube.com")){
+
+      const v = parsed.searchParams.get("v");
+
+      if(v) return v;
+
+      const parts = parsed.pathname.split("/");
+
+      if(parts.includes("shorts")){
+        return parts[parts.indexOf("shorts")+1];
+      }
+
+      if(parts.includes("embed")){
+        return parts[parts.indexOf("embed")+1];
+      }
+    }
+
+  }catch(e){}
+
+  return null;
+}
+
+
+function analyze(){
+
+  const input =
+    document.getElementById("input").value.trim();
+
+  const notice =
+    document.getElementById("notice");
+
+  const result =
+    document.getElementById("result");
+
+  if(!input){
+
+    notice.style.display="block";
+    notice.textContent=
+      "Írj be egy YouTube-linket vagy egy keresőkifejezést.";
+
+    return;
+  }
+
+  notice.style.display="none";
+
+  let videoId=getVideoId(input);
+
+  let title=input;
+
+  if(videoId){
+
+    document.getElementById("video").src=
+      "https://www.youtube.com/embed/"+videoId;
+
+    document.getElementById("videoTitle").textContent=
+      "YouTube videó elemzése";
+
+    document.getElementById("videoId").textContent=
+      "Videó ID: "+videoId;
+
+    document.getElementById("statId").textContent=
+      videoId.substring(0,11);
+
+  }else{
+
+    /*
+      Ha nem linket írtál be, keresőkifejezésként kezeljük.
+      A valódi YouTube kereséshez API szükséges.
+    */
+
+    document.getElementById("video").src="";
+
+    document.getElementById("videoTitle").textContent=
+      "Keresés: "+input;
+
+    document.getElementById("videoId").textContent=
+      "Keresőkifejezés alapján";
+
+    document.getElementById("statId").textContent=
+      "KERESÉS";
+
+  }
+
+
+  const analysisText=input.toLowerCase();
+
+  let found=[];
+
+  for(const key in keywords){
+
+    if(analysisText.includes(key)){
+
+      if(!found.includes(keywords[key])){
+        found.push(keywords[key]);
+      }
+
+    }
+
+  }
+
+
+  if(found.length===0){
+
+    found=[
+      "🔥 Általános tartalom",
+      "📺 YouTube",
+      "👀 Szórakoztató tartalom"
     ];
 
-    let roastCount = 0;
+  }
 
-    function newRoast() {
 
-      const result = document.getElementById("roastResult");
+  document.getElementById("topics").innerHTML=
+    found.map(x =>
+      `<div class="topic">${x}</div>`
+    ).join("");
 
-      const random =
-        roasts[Math.floor(Math.random() * roasts.length)];
 
-      result.classList.remove("active");
+  let clickbait=calculateClickbait(input);
 
-      void result.offsetWidth;
+  let roast=
+    Math.min(
+      99,
+      Math.max(20,clickbait+Math.floor(Math.random()*12)-5)
+    );
 
-      result.textContent = random;
 
-      result.classList.add("active");
+  document.getElementById("statClickbait").textContent=
+    clickbait+"%";
 
-      roastCount++;
+  document.getElementById("statRoast").textContent=
+    roast+"%";
 
-      document.getElementById("counter").textContent =
-        roastCount;
+  document.getElementById("score").textContent=
+    roast;
 
-      showPopup("🔥 ÚJ ROAST GENERÁLVA!");
+  document.getElementById("fill").style.width=
+    clickbait+"%";
+
+
+  document.getElementById("roastText").textContent=
+    roastTexts[Math.floor(Math.random()*roastTexts.length)];
+
+
+  result.style.display="block";
+
+  document.getElementById("eredmeny")
+    .scrollIntoView({behavior:"smooth"});
+
+}
+
+
+function calculateClickbait(text){
+
+  const t=text.toLowerCase();
+
+  let score=25;
+
+  const words=[
+
+    "nem hiszed el",
+    "döbbenetes",
+    "hihetetlen",
+    "titok",
+    "titkos",
+    "megdöbbentő",
+    "botrány",
+    "végre",
+    "azonnal",
+    "breaking",
+    "shocking",
+    "secret",
+    "omg",
+    "!!!",
+    "??",
+    "😱",
+    "🔥",
+    "💥",
+    "nem fogod elhinni",
+    "életem legjobb",
+    "életem legrosszabb"
+
+  ];
+
+  words.forEach(word=>{
+
+    if(t.includes(word)){
+      score+=5;
     }
 
-    function copyRoast() {
+  });
 
-      const text =
-        document.getElementById("roastResult").textContent;
 
-      navigator.clipboard.writeText(text)
-        .then(() => {
-          showPopup("📋 ROAST KIMÁSOLVA!");
-        })
-        .catch(() => {
-          showPopup("😅 A másolás nem sikerült.");
-        });
-    }
+  if(t.length>60){
+    score+=8;
+  }
 
-    function showPopup(message) {
+  if(t.length>100){
+    score+=7;
+  }
 
-      const popup = document.getElementById("popup");
 
-      popup.textContent = message;
-      popup.classList.add("show");
+  return Math.min(99,score);
 
-      clearTimeout(window.popupTimer);
+}
 
-      window.popupTimer = setTimeout(() => {
-        popup.classList.remove("show");
-      }, 1800);
-    }
 
-  </script>
+document.getElementById("input")
+  .addEventListener("input",function(){
+
+    document.getElementById("notice")
+      .style.display="none";
+
+  });
+
+</script>
 
 </body>
 </html>
