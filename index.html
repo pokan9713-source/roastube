@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROASTUBE 🔥</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255, 0, 70, .16), transparent 30%),
+        radial-gradient(circle at 80% 30%, rgba(255, 70, 0, .12), transparent 25%),
+        #070707;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .04;
+      background-image:
+        linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 18px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(7,7,7,.82);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: 1000;
+      letter-spacing: -1px;
+    }
+
+    .logo span {
+      color: #ff1744;
+    }
+
+    nav a {
+      color: #aaa;
+      text-decoration: none;
+      margin-left: 25px;
+      font-weight: 700;
+      transition: .2s;
+    }
+
+    nav a:hover {
+      color: #fff;
+    }
+
+    .hero {
+      min-height: 88vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 80px 20px;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 950px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 15px;
+      border: 1px solid rgba(255,23,68,.5);
+      border-radius: 999px;
+      color: #ff5273;
+      background: rgba(255,23,68,.08);
+      font-weight: 800;
+      font-size: 13px;
+      margin-bottom: 25px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      50% {
+        box-shadow: 0 0 30px rgba(255,23,68,.18);
+      }
+    }
+
+    h1 {
+      font-size: clamp(55px, 10vw, 125px);
+      line-height: .85;
+      letter-spacing: -7px;
+      font-weight: 1000;
+    }
+
+    h1 span {
+      color: #ff1744;
+      text-shadow: 0 0 40px rgba(255,23,68,.35);
+    }
+
+    .subtitle {
+      color: #999;
+      font-size: clamp(17px, 2vw, 23px);
+      max-width: 650px;
+      margin: 30px auto;
+      line-height: 1.6;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    button,
+    .button {
+      border: 0;
+      cursor: pointer;
+      padding: 16px 25px;
+      border-radius: 12px;
+      font-weight: 900;
+      font-size: 15px;
+      text-decoration: none;
+      transition: .2s;
+    }
+
+    .primary {
+      background: #ff1744;
+      color: #fff;
+      box-shadow: 0 10px 40px rgba(255,23,68,.25);
+    }
+
+    .primary:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 15px 50px rgba(255,23,68,.4);
+    }
+
+    .secondary {
+      background: #161616;
+      color: #fff;
+      border: 1px solid #333;
+    }
+
+    .secondary:hover {
+      background: #222;
+      transform: translateY(-3px);
+    }
+
+    section {
+      padding: 100px 6%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .section-title {
+      font-size: clamp(35px, 5vw, 60px);
+      font-weight: 1000;
+      letter-spacing: -3px;
+      margin-bottom: 15px;
+    }
+
+    .section-title span {
+      color: #ff1744;
+    }
+
+    .section-text {
+      color: #888;
+      margin-bottom: 35px;
+      line-height: 1.7;
+    }
+
+    .roast-box {
+      background: linear-gradient(145deg, #151515, #0c0c0c);
+      border: 1px solid #292929;
+      border-radius: 25px;
+      padding: 35px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.35);
+    }
+
+    .roast-result {
+      min-height: 130px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 25px;
+      margin-bottom: 25px;
+      border-radius: 18px;
+      background: #090909;
+      border: 1px solid #252525;
+      color: #ddd;
+      font-size: clamp(20px, 3vw, 30px);
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .roast-result.active {
+      animation: roastIn .35s ease;
+    }
+
+    @keyframes roastIn {
+      from {
+        transform: scale(.95);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .meter {
+      margin-top: 35px;
+    }
+
+    .meter-top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      color: #aaa;
+      font-weight: 800;
+    }
+
+    .meter-bar {
+      height: 18px;
+      border-radius: 99px;
+      background: #222;
+      overflow: hidden;
+    }
+
+    .meter-fill {
+      width: 87%;
+      height: 100%;
+      background: linear-gradient(90deg, #ff1744, #ff6d00);
+      border-radius: inherit;
+      animation: load 1.3s ease;
+    }
+
+    @keyframes load {
+      from { width: 0; }
+      to { width: 87%; }
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 40px;
+    }
+
+    .card {
+      padding: 28px;
+      border-radius: 20px;
+      background: #111;
+      border: 1px solid #242424;
+      transition: .25s;
+    }
+
+    .card:hover {
+      transform: translateY(-7px);
+      border-color: #ff1744;
+      box-shadow: 0 20px 50px rgba(255,23,68,.12);
+    }
+
+    .emoji {
+      font-size: 42px;
+      margin-bottom: 18px;
+    }
+
+    .card h3 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: #888;
+      line-height: 1.6;
+    }
+
+    .counter {
+      text-align: center;
+      margin-top: 60px;
+      padding: 45px;
+      border-radius: 25px;
+      background: #0d0d0d;
+      border: 1px solid #242424;
+    }
+
+    .counter-number {
+      font-size: clamp(55px, 10vw, 100px);
+      font-weight: 1000;
+      color: #ff1744;
+    }
+
+    .counter p {
+      color: #888;
+    }
+
+    footer {
+      text-align: center;
+      padding: 60px 20px;
+      border-top: 1px solid #1d1d1d;
+      color: #666;
+    }
+
+    footer strong {
+      color: #ff1744;
+    }
+
+    .popup {
+      position: fixed;
+      left: 50%;
+      bottom: 30px;
+      transform: translate(-50%, 150px);
+      background: #ff1744;
+      color: #fff;
+      padding: 16px 25px;
+      border-radius: 14px;
+      font-weight: 1000;
+      z-index: 999;
+      opacity: 0;
+      transition: .35s;
+      box-shadow: 0 15px 50px rgba(255,23,68,.35);
+    }
+
+    .popup.show {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+
+    @media (max-width: 800px) {
+      nav {
+        padding: 15px 20px;
+      }
+
+      nav div:last-child {
+        display: none;
+      }
+
+      h1 {
+        letter-spacing: -4px;
+      }
+
+      section {
+        padding: 70px 20px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .roast-box {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="logo">ROAST<span>UBE</span> 🔥</div>
+
+    <div>
+      <a href="#roast">ROAST</a>
+      <a href="#meter">MÉRŐ</a>
+      <a href="#klisek">KLISÉK</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-content">
+
+      <div class="badge">🔥 INTERNETES CLICKBAIT-ELLENŐRZŐ 3000</div>
+
+      <h1>
+        KEVESEBB<br>
+        <span>CLICKBAIT.</span><br>
+        TÖBB ROAST.
+      </h1>
+
+      <p class="subtitle">
+        A hely, ahol a „EZT NEM HISZED EL!” címek végre megkapják azt,
+        amit megérdemelnek. 😈
+      </p>
+
+      <div class="buttons">
+        <a class="button primary" href="#roast">ROAST INDÍTÁSA 🔥</a>
+        <a class="button secondary" href="#meter">MENNYIRE CLICKBAIT?</a>
+      </div>
+
+    </div>
+  </header>
+
+  <section id="roast">
+
+    <div class="section-title">
+      RANDOM <span>ROAST</span> GENERÁTOR
+    </div>
+
+    <p class="section-text">
+      Nyomd meg a gombot, és a rendszer kiválaszt egy teljesen fiktív,
+      általános YouTube-roastot.
+    </p>
+
+    <div class="roast-box">
+
+      <div class="roast-result" id="roastResult">
+        Nyomd meg a gombot. Tudod, hogy akarod. 👀
+      </div>
+
+      <div class="buttons">
+        <button class="primary" onclick="newRoast()">
+          🔥 ROASTOLJ!
+        </button>
+
+        <button class="secondary" onclick="copyRoast()">
+          📋 MÁSOLÁS
+        </button>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section id="meter">
+
+    <div class="section-title">
+      CLICKBAIT <span>MÉRŐ</span>
+    </div>
+
+    <p class="section-text">
+      A tudományosan teljesen komolytalan, de annál szórakoztatóbb
+      clickbait-mérőnk.
+    </p>
+
+    <div class="roast-box">
+
+      <h2>„EZT A VIDEÓT NEM AKARTAM FELTÖLTENI...”</h2>
+
+      <div class="meter">
+        <div class="meter-top">
+          <span>CLICKBAIT SZINT</span>
+          <span>87%</span>
+        </div>
+
+        <div class="meter-bar">
+          <div class="meter-fill"></div>
+        </div>
+      </div>
+
+      <br>
+
+      <p class="section-text">
+        Várható összetevők: piros nyíl, meglepett arc,
+        túl sok felkiáltójel és legalább egy „DÖBBENETES!”.
+      </p>
+
+    </div>
+
+  </section>
+
+  <section id="klisek">
+
+    <div class="section-title">
+      A NAGY <span>KLISÉK</span>
+    </div>
+
+    <p class="section-text">
+      Ismerős? Akkor valószínűleg túl sokáig voltál YouTube-on.
+    </p>
+
+    <div class="grid">
+
+      <div class="card">
+        <div class="emoji">😱</div>
+        <h3>A MEGLEPETT ARC</h3>
+        <p>
+          Száj nyitva. Szemek tágra nyitva. Hüvelykujj a háttérben.
+          A videó tartalma természetesen teljesen másodlagos.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="emoji">🔴</div>
+        <h3>A PIROS KARIKA</h3>
+        <p>
+          Ha valamit piros körrel jelölünk, az automatikusan
+          73%-kal titokzatosabbnak tűnik. Tudományosnak hangzik.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="emoji">➡️</div>
+        <h3>A PIROS NYÍL</h3>
+        <p>
+          Egyetlen nyíl, ami valójában semmire sem mutat,
+          de valahogy mégis rákattintasz.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="emoji">💀</div>
+        <h3>„NEM HISZED EL!”</h3>
+        <p>
+          Az internet egyik legrégebbi mondatkezdése.
+          És igen, még mindig működik.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="emoji">👀</div>
+        <h3>„MARADJ A VÉGÉIG”</h3>
+        <p>
+          A videó elején elmondják, hogy a végén lesz a lényeg.
+          A végén pedig jön a következő videó.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="emoji">💰</div>
+        <h3>„EZ MEGVÁLTOZTATTA AZ ÉLETEM”</h3>
+        <p>
+          Két napja még nem ismerte. Ma már az élete legfontosabb
+          dolga. Holnap pedig szponzorált lesz.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="counter">
+      <div class="counter-number" id="counter">0</div>
+      <p>roast generálva ezen az oldalon</p>
+    </div>
+
+  </section>
+
+  <footer>
+    <strong>ROASTUBE 🔥</strong><br><br>
+    Szatirikus oldal a tartalomgyártói klisékről.<br>
+    Nem célunk valós személyekről ellenőrizetlen állításokat tenni.
+  </footer>
+
+  <div class="popup" id="popup">
+    🔥 ROAST KIMÁSOLVA!
+  </div>
+
+  <script>
+
+    const roasts = [
+      "A thumbnail több energiát kapott, mint maga a videó.",
+      "Ez nem clickbait. Ez kreatív félrevezetés. 😌",
+      "A piros nyíl már többet dolgozott, mint a vágó.",
+      "A videó 10 perc. A lényeg 14 másodperc.",
+      "„A végén minden kiderül!” — 18 perc múlva: semmi.",
+      "A thumbnail szerint világtörténelmi esemény történt. Valójában csak leesett egy pohár.",
+      "A cím CAPS LOCK-ban van, tehát biztosan komoly.",
+      "A meglepett arc nagyobb, mint a videó valódi sztorija.",
+      "Ha a címben három felkiáltójel van, az internet szerint az már dokumentumfilm.",
+      "Ez a thumbnail úgy néz ki, mintha a Photoshop is felmondott volna.",
+      "A videó legfontosabb része? Az, hogy kattintottál.",
+      "A tartalom 20%, a thumbnail 80%, a valóság pedig valahol hátul ül.",
+      "„Nem akartam ezt megmutatni...” — de a kamera pont be volt kapcsolva. 😏",
+      "A YouTube algoritmus ezt látja: 👀. Te ezt látod: 💸.",
+      "Minden videó előtt kell egy drámai szünet. Kötelező."
+    ];
+
+    let roastCount = 0;
+
+    function newRoast() {
+
+      const result = document.getElementById("roastResult");
+
+      const random =
+        roasts[Math.floor(Math.random() * roasts.length)];
+
+      result.classList.remove("active");
+
+      void result.offsetWidth;
+
+      result.textContent = random;
+
+      result.classList.add("active");
+
+      roastCount++;
+
+      document.getElementById("counter").textContent =
+        roastCount;
+
+      showPopup("🔥 ÚJ ROAST GENERÁLVA!");
+    }
+
+    function copyRoast() {
+
+      const text =
+        document.getElementById("roastResult").textContent;
+
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          showPopup("📋 ROAST KIMÁSOLVA!");
+        })
+        .catch(() => {
+          showPopup("😅 A másolás nem sikerült.");
+        });
+    }
+
+    function showPopup(message) {
+
+      const popup = document.getElementById("popup");
+
+      popup.textContent = message;
+      popup.classList.add("show");
+
+      clearTimeout(window.popupTimer);
+
+      window.popupTimer = setTimeout(() => {
+        popup.classList.remove("show");
+      }, 1800);
+    }
+
+  </script>
+
+</body>
+</html>
